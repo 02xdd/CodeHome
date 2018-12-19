@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 
+		消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样		
+		name属性命名唯一   一般最好使用工程名命名
+	-->
+	<dubbo:application name="dubbo-consumer" />
+	
+	<!-- 
+		使用zookeeper注册中心暴露发现服务地址
+		
+		com.etoak.service.UserService
+		20880
+		20881
+	-->
+	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
+
+	
+	<!-- 
+		dubbo扫描 
+		@Service @Reference  aop操作
+	 -->
+	<dubbo:annotation package="com.etoak" />
+	
+	<!-- ioc -->
+	<context:component-scan base-package="com.etoak" />
+	
+	
+</beans>

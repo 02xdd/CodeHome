@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 
+		提供方应用信息，用于计算依赖关系 
+		
+		name属性命名唯一   一般最好使用工程名命名
+	-->
+	<dubbo:application name="dubbo-provider" />
+	
+	<!-- 
+		使用zookeeper注册中心暴露服务地址 
+		
+		host:ip=自动获取本机ip地址
+		
+		dubbo://host:20880/com.etoak.service.UserService
+		
+		
+		address表示客户端调用服务端     服务端地址：zookeeper://127.0.0.1:2181
+			通过zookeeper客户端将
+					dubbo://host:20880/com.etoak.service.UserService
+					dubbo://host:20880/com.etoak.service.StuService
+					注册到zookeeper服务端中
+					
+			存储的结构
+				com.etoak.service.UserService 
+					dubbo://host:20880/com.etoak.service.UserService
+					dubbo://host:20881/com.etoak.service.UserService
+				om.etoak.service.StuService
+					dubbo://host:20880/com.etoak.service.StuService
+	-->
+	<dubbo:registry address="zookeeper://127.0.0.1:2181" />
+
+	<!-- 
+	 	用dubbo协议在20880端口暴露服务 
+	 	
+	 	name表示定义协议  默认dubbo
+	 	port表示端口号  默认20880
+	-->
+	<dubbo:protocol name="dubbo" port="20880"/>
+	
+	<!-- 
+		dubbo扫描
+		@Service @Reference  aop操作
+	 -->
+	<dubbo:annotation package="com.etoak" />		
+	
+	
+</beans>
